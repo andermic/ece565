@@ -1,0 +1,267 @@
+\documentclass{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\author{Michael Anderson}
+\title{Homework 1}
+\begin{document}
+\setlength{\parskip}{1em}
+\maketitle
+\center{ECE565}
+\center{Prof. Raich}\\
+\flushleft
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\pagebreak
+
+\section{}
+\begin{enumerate}[(a)]
+\item
+$y(1) = b + e(1)$\\
+$y(2) = a + e(2)$\\
+$y(3) = b + e(3)$\\
+$y(4) = a + e(4)$\\
+\hspace{1pt} \vdots \\
+$y(N) = \{a \hspace{4pt} or \hspace{4pt} b\} + e(N)$
+\vspace{1em}
+
+So the transform $H$ that describes this set of equations, and the parameter
+list $\theta$, are given by:
+
+\[
+y(n) = H\theta + e(n) \rightarrow
+\]
+
+\[
+y(n) =
+\left[ \begin{array}{c c}
+0 & 1 \\
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+\vdots \\
+\end{array}
+\right]
+\left[ \begin{array}{c}
+a \\
+b \\
+\end{array} \right]
++ e(n)
+\]
+
+\item
+\[
+\hat{\theta}_{LS} = (H^TH)^{-1}H^Ty =
+\]
+\[
+{\left(
+\left[ \begin{array}{c c c c c}
+0 & 1 & 0 & 1 & \\
+1 & 0 & 1 & 0 & \ldots \\
+\end{array} \right]
+\left[ \begin{array}{c c}
+0 & 1 \\
+1 & 0 \\
+0 & 1 \\
+1 & 0 \\
+\vdots \\
+\end{array}
+\right]
+\right)}^{-1}
+\left[ \begin{array}{c c c c c}
+0 & 1 & 0 & 1 & \\
+1 & 0 & 1 & 0 & \ldots \\
+\end{array}
+\right]
+\left[ \begin{array}{c}
+y(1)\\
+y(2)\\
+y(3)\\
+y(4)\\
+\vdots\\
+\end{array} \right]
+=
+\]
+
+\[
+{\left[ \begin{array}{c c}
+\lfloor N/2 \rfloor & 0 \\
+0 & \lceil N/2 \rceil \\
+\end{array} \right]}^{-1}
+\left[ \begin{array}{c}
+y(2) + y(4) + y(6) + \cdots \\
+y(1) + y(3) + y(5) + \cdots\\
+\end{array} \right]
+=
+\]
+
+\[
+\left[ \begin{array}{c}
+\frac{y(2) + y(4) + y(6) + \cdots}{\lfloor n/2 \rfloor} \\
+\\
+\frac{y(1) + y(3) + y(5) + \cdots}{\lceil n/2 \rceil} \\
+\end{array} \right]
+\]
+\vspace{6pt}
+\item
+With the change of parameters we now have:
+\[
+y(n) = HM\theta + e(n)
+\]
+
+To return to the canonical form, let $\theta' = M\theta$, so
+$\theta = M^{-1}\theta'$. Absorb the $M^{-1}$ term into $H'$ to get 
+$H' = HM^{-1}$. So to estimate in terms of $\theta'$:
+
+\[
+\hat{\theta}'_{LS} = (H'^TH')^{-1}H'^Ty = ((HM^{-1})^{T} HM^{-1})^{-1}(HM)^{-1T}y =
+\]
+
+\[
+(M^{-1T} (H^T H) M^{-1})^{-1}M^{-1T}H^Ty = 
+M (H^T H)^{-1} M^T M^{-1T} H^T y =
+\]
+
+\[
+M (H^T H)^{-1} H^T y = M \hat{\theta}_{LS}
+\]
+
+\vspace{2em}
+
+\item
+$c = a/2 + b/2$ and $d = a/2 - b/2$ written as a linear transform $M$ is:
+
+\[
+M = \left[ \begin{array}{c c}
+1/2 & 1/2\\
+1/2 & -1/2\\
+\end{array} \right]
+\]
+
+Now:
+
+\[
+\hat{\theta}'_{LS} = M\hat{\theta}_{LS} = 
+\left[ \begin{array}{c c}
+1/2 & 1/2\\
+1/2 & -1/2\\
+\end{array} \right]
+\left[ \begin{array}{c}
+\frac{y(2) + y(4) + y(6) + \cdots}{\lfloor N/2 \rfloor} \\
+\\
+\frac{y(1) + y(3) + y(5) + \cdots}{\lceil N/2 \rceil} \\
+\end{array} \right] =
+\left[ \begin{array}{c c}
+\frac{\sum_{i=1}^{N} y(i)}{N}\\
+\\
+\frac{(y(2) + y(4) + y(6) + \cdots) - (y(1) + y(3) + y(5) + \cdots)}{N}\\
+\end{array} \right]
+\]
+
+The result fits with intuition. Our $c$ is estimated by the average of all
+observations, and $d$ is estimated by the average difference of the even 
+($a$ valued) and odd ($b$ valued) observations.
+
+\end{enumerate}
+
+\section{}
+\begin{enumerate}[(a)]
+\item
+$y(n-N+1) = A + \lambda^{-N+1} e(1)$\\
+$y(n-N+2) = A + \lambda^{-N+2} e(2)$\\
+$y(n-N+3) = A + \lambda^{-N+3} e(3)$\\
+$y(n-N+4) = A + \lambda^{-N+4} e(4)$\\
+\hspace{1pt} \vdots \\
+$y(n) = A + \lambda^0 e(N) = A + e(N)$
+\vspace{1em}
+
+$A$ appears in every term as the only parameter, and the error weights are
+simply the diagonals of $W$, so the setup is:
+
+\[
+y(n) = H\theta + We(n) \rightarrow
+\]
+
+\[
+y(n) = \left[ \begin{array}{c}
+1\\
+1\\
+1\\
+\vdots\\
+1\\
+\end{array}\right]
+[A] +
+\left[ \begin{array}{c c c c c}
+\lambda^{-N+1} & 0 & 0 & & 0 \\
+0 & \lambda^{-N+2} & 0 & & 0 \\
+0 & 0 & \lambda^{-N+3} & & 0\\
+& & & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 1\\
+\end{array} \right] e(n)
+\]
+
+\item
+
+\[
+\hat\theta_{WLS} = (H^T W H)^{-1} H^T W y =
+\]
+
+\[
+\left( [\begin{array}{c c c c c}
+1 & 1 & 1 & \cdots & 1
+\end{array}]
+\left[ \begin{array}{c c c c c}
+\lambda^{-N+1} & 0 & 0 & & 0 \\
+0 & \lambda^{-N+2} & 0 & & 0 \\
+0 & 0 & \lambda^{-N+3} & & 0\\
+& & & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 1\\
+\end{array} \right]
+\left[ \begin{array}{c}
+1\\
+1\\
+1\\
+\vdots\\
+1\\
+\end{array}\right] \right)^{-1}
+\]
+
+\[
+[\begin{array}{c c c c c}
+1 & 1 & 1 & \cdots & 1
+\end{array}]
+\left[ \begin{array}{c c c c c}
+\lambda^{-N+1} & 0 & 0 & & 0 \\
+0 & \lambda^{-N+2} & 0 & & 0 \\
+0 & 0 & \lambda^{-N+3} & & 0\\
+& & & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & 1\\
+\end{array} \right]
+\left[ \begin{array}{c}
+y(n-N+1)\\
+y(n-N+2)\\
+y(n-N+3)\\
+\vdots\\
+y(n)\\
+\end{array}\right] =
+\]
+
+\[
+\left( \frac{1}{\sum_{i=0}^{N-1} \lambda^{-i}} \right)
+\left( \sum_{i=n-N+1}^n \lambda^{i-n}y(i) \right)
+\]
+
+\vspace{6pt}
+
+Letting $N$ go to infinity and recalling that
+$\sum_{i=0}^{\infty} r^i = \frac{1}{1-r}$ gives:
+
+\[
+\frac{1}{\frac{1}{1-\lambda}}\left( \sum_{i=-\infty}^n \lambda^{i-n}y(i) \right)
+= (1-\lambda)\left( \sum_{i=-\infty}^n \lambda^{i-n}y(i) \right)
+\]
+
+\end{enumerate}
+\end{document}
