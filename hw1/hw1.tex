@@ -169,23 +169,31 @@ observations, and $d$ is estimated by the average difference of the even
 \section{}
 \begin{enumerate}[(a)]
 \item
-$y(n-N+1) = A + \lambda^{-N+1} e(1)$\\
-$y(n-N+2) = A + \lambda^{-N+2} e(2)$\\
-$y(n-N+3) = A + \lambda^{-N+3} e(3)$\\
-$y(n-N+4) = A + \lambda^{-N+4} e(4)$\\
+$y(n-N+1) = A + \lambda^{-N+1} e(n-N+1)$\\
+$y(n-N+2) = A + \lambda^{-N+2} e(n-N+2)$\\
+$y(n-N+3) = A + \lambda^{-N+3} e(n-N+3)$\\
 \hspace{1pt} \vdots \\
-$y(n) = A + \lambda^0 e(N) = A + e(N)$
+$y(n) = A + \lambda^0 e(n) = A + e(n)$
 \vspace{1em}
 
-$A$ appears in every term as the only parameter, and the error weights are
-simply the diagonals of $W$, so the setup is:
+The problem states that the $y$ values in question are between $y(n-N+1)$ and 
+$y(n)$ inclusive, $A$ appears alone in the $H\theta$ term of each equation as
+the only parameter, and the error weights are simply the diagonals of $W$, so
+the setup is:
 
 \[
 y(n) = H\theta + We(n) \rightarrow
 \]
 
 \[
-y(n) = \left[ \begin{array}{c}
+\left[ \begin{array}{c}
+y(n-N+1)\\
+y(n-N+2)\\
+y(n-N+3)\\
+\vdots\\
+y(n)
+\end{array} \right] =
+\left[ \begin{array}{c}
 1\\
 1\\
 1\\
@@ -199,7 +207,14 @@ y(n) = \left[ \begin{array}{c}
 0 & 0 & \lambda^{-N+3} & & 0\\
 & & & \ddots & \vdots \\
 0 & 0 & 0 & \cdots & 1\\
-\end{array} \right] e(n)
+\end{array} \right] 
+\left[ \begin{array}{c}
+e(n-N+1)\\
+e(n-N+2)\\
+e(n-N+3)\\
+\vdots\\
+e(n)
+\end{array} \right]
 \]
 
 \item
@@ -255,12 +270,14 @@ y(n)\\
 
 \vspace{6pt}
 
-Letting $N$ go to infinity and recalling that
-$\sum_{i=0}^{\infty} r^i = \frac{1}{1-r}$ gives:
+Since $\lambda^{-i} = (\frac{1}{\lambda})^i$, and recalling that
+$\sum_{i=0}^{\infty} r^i = \frac{1}{1-r}$, and letting $N$ go to infinity,
+yields:
 
 \[
-\frac{1}{\frac{1}{1-\lambda}}\left( \sum_{i=-\infty}^n \lambda^{i-n}y(i) \right)
-= (1-\lambda)\left( \sum_{i=-\infty}^n \lambda^{i-n}y(i) \right)
+\frac{1}{\frac{1}{1-\frac{1}{\lambda}}}\left( \sum_{i=-\infty}^n
+\lambda^{i-n}y(i) \right) = \left( 1-\frac{1}{\lambda} \right)
+\left( \sum_{i=-\infty}^n \lambda^{i-n}y(i) \right)
 \]
 
 \end{enumerate}
