@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\author{Michael Anderson}
+\title{Homework 3}
+\begin{document}
+\setlength{\parskip}{1em}
+\maketitle
+\center{ECE565}
+\center{Prof. Raich}\\
+\flushleft
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\pagebreak
+
+\section{}
+\begin{enumerate}
+\item[(a)]
+Exponential densities can be written in the form
+$f_{\theta}(x) = a(\theta)b(x)e^{c(\theta)t(x)}$
+
+Let $c$ and $t$ equal 0. There is no way to separate the expression into the
+product of a pure function of $\theta$ and a pure function of $x$.
+
+\item[(d)]
+
+The score $s$ is:
+
+\[
+\frac{d \log f}{d\theta} = 
+\frac{d}{d\theta} \log \left[ \frac{1}{2} \left( \frac{1+3\theta x^2}{1+\theta}
+\right) \right] =
+\frac{3x^2}{1+3\theta x^2} - \frac{2}{2+2\theta}
+\]
+
+The score is not writable in the form $c(\theta)(g(x) - \theta)$, confirming
+that the is not part of the exponential family.
+
+\[
+FIM = -E\left[ \frac{ds}{d\theta}\right] =
+-E \left[\frac{1}{(1+\theta)^2} - \frac{9x^4}{(3\theta x^2 - 1)^2}\right] =
+\]
+
+\[ 
+\int_{-\infty}^{\infty} \left[ \left( \frac{9x^4}{(3\theta x^2 - 1)^2} - 
+\frac{1}{(1+\theta)^2} \right) \frac{1}{2} \left( \frac{1+3\theta x^2}{1+\theta}
+\right) \right] dx = \text{infinity?}
+\]
+
+\[
+\text{CRLB} = 1/FIM = 0
+\]
+
+\end{enumerate}
+
+\section{}
+\begin{enumerate}
+\item[(a)]
+\[
+s = \frac{d \log f}{d\theta} = \frac{d}{d\theta} \left[ \log \left(\frac{1}
+{\Gamma(\theta)} \right) + \log(x^{\theta-1}) + \log(e^{-x})) \right] = 
+-\psi(\theta) + \log(x)
+\]
+
+Cannot write in the form $c(\theta)(g(x)-\theta)$, so no efficient estimator.
+
+\[
+FIM = -E \left[ \frac{ds}{d\theta} \right] =
+-E \left[ \frac{d}{d\theta} [\log(x) - \psi(\theta)] \right] =
+-E [\psi '(\theta)] =
+\]
+
+\[
+- \int_{-\infty}^{\infty} \psi'(\theta) \left( \frac{1}{\Gamma(\theta)}
+x^{\theta-1} e^{-x} \right) dx
+\]
+
+\section{}
+
+
+\end{enumerate}
+\end{document}
