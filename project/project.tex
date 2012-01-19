@@ -1,0 +1,187 @@
+\documentclass{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\author{Michael Anderson}
+\title{Final Project Report}
+\begin{document}
+\setlength{\parskip}{1em}
+\maketitle
+\center{ECE565}
+\center{Prof. Raich}\\
+\flushleft
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\pagebreak
+
+\section{}
+\[
+y = \left[ \begin{array}{c c}
+y \left([1-\frac{N+1}{2}]\frac{2f_o}{N}\right) \\
+y \left([2-\frac{N+1}{2}]\frac{2f_o}{N}\right) \\
+\vdots \\
+y \left([N-\frac{N+1}{2}]\frac{2f_o}{N}\right) \\
+\end{array} \right]
+\]
+
+The general pdf for a complex normal is:
+\[
+f(y|\theta) = \frac{1}{det(\pi C)} \exp \{ -(x-\mu)^TC^{-1}(x-\mu) \}
+\]
+
+Since $\mu$ in this problem is 0, this simplifies to:
+\[
+f(y|\theta) = \frac{1}{det(\pi C)} \exp \{ -x^TC^{-1}x \}
+\]
+
+Since the $n$ draws from the distribution are all independent, with variances
+as given in the problem statement, $C$ and $C^{-1}$ are
+the following diagonal matrices:
+
+\[
+C = diag \left[\frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_1}} + \sigma^2, 
+\frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_2}} + \sigma^2, \hspace{6pt} \ldots \hspace{6pt},
+\frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_N}} + \sigma^2
+\right]
+\]
+
+\[
+C^{-1} = diag \left[ \left( \frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_1}} + \sigma^2 \right) ^{-1}, 
+\left( \frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_2}} + \sigma^2 \right)^{-1}, \hspace{6pt} \ldots \hspace{6pt},
+\left( \frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_N}} + \sigma^2 \right)^{-1}
+\right]
+\]
+
+\section{}
+It is given that the Fisher Information Matrix of a complex normal distribution is:
+
+\[
+FIM_{ij} = 2R \left[
+{\left(\frac{d\mu}{d\theta_i}\right)^T} C^{-1} \frac{d\mu}{d\theta_j}
+\right] + 
+tr \left[
+C^{-1} \frac{dC}{d\theta_i} C^{-1} \frac{dC}{d\theta_j}
+\right]
+\]
+
+The mean of our complex normal is 0, so the left term is 0, leaving:
+
+\[
+FIM_{ij} = tr \left[
+C^{-1} \frac{dC}{d\theta_i} C^{-1} \frac{dC}{d\theta_j}
+\right]
+\]
+
+Need to calculate $dC/d\theta$:
+
+\[
+\frac{d}{df_d} \left( \frac{SNR \cdot \sigma^2}{\sqrt{f^2_d - f^2_i}} + \sigma^2 \right) =
+SNR \cdot \sigma^2 \; \frac{d}{df_d} (f^2_d-f^2_1)^{-1/2} =
+-\frac{1}{2}2f_d \cdot SNR \cdot \sigma^2(f^2_d-f^2_i)^{-3/2} =
+-\frac{f_d \cdot SNR \cdot \sigma^2}{(f^2_d - f^2_i)^{3/2}}
+\]
+
+\[
+\text{So} \quad \frac{dC}{df_d} = diag \left[-\frac{f_d \cdot SNR \cdot \sigma^2}{(f^2_d - f^2_1)^{3/2}},
+-\frac{f_d \cdot SNR \cdot \sigma^2}{(f^2_d - f^2_2)^{3/2}}, \hspace{6pt} \ldots \hspace{6pt},
+-\frac{f_d \cdot SNR \cdot \sigma^2}{(f^2_d - f^2_N)^{3/2}}
+\right]
+\]
+
+\[
+\frac{dC}{dSNR} = diag \left[ \frac{\sigma^2}{\sqrt{f^2_d-f^2_1}}, \frac{\sigma^2}{\sqrt{f^2_d-f^2_2}},
+\hspace{6pt} \ldots \hspace{6pt}, \frac{\sigma^2}{\sqrt{f^2_d-f^2_N}},
+\right]
+\]
+
+\[
+\frac{dC}{d\sigma^2} = diag \left[
+\frac{SNR}{\sqrt{f^2_d-f^2_1}}+1, \frac{SNR}{\sqrt{f^2_d-f^2_2}}+1,
+\hspace{6pt} \ldots{} \hspace{6pt}, \frac{SNR}{\sqrt{f^2_d-f^2_N}}+1
+\right]
+\]
+
+\vspace{1em}
+
+Now to calculate the Fisher Information Matrix. To save a little time, let $k = \sqrt{f^2_d+f^2_i}$ to get:
+
+\[
+FIM_{11} = \sum^N_{i=1} \left( \frac{SNR \cdot \sigma^2}{k} + \sigma^2 \right)^{-2}
+\left( -\frac{f_d \cdot SNR \cdot \sigma^2}{k^{3/2}} \right)^2 = 
+\sum^n_{i=1}\frac{f^2_d \cdot SNR^2 \cdot \sigma^2\sigma^2}
+{k^6 \left( \frac{SNR^2 \cdot \sigma^2\sigma^2}{k^2} + 2\frac{SNR^2 \cdot \sigma^2\sigma^2}{k} + \sigma^2\sigma^2 \right)} =
+\]
+
+\[
+\sum^n_{i=1} \frac{f^2_d \cdot SNR^2}{k^4(SNR+k)^2}
+\]
+
+\vspace{2em}
+
+\[
+FIM_{12} = FIM_{21} = \sum^n_{i=1} \left( \frac{SNR \cdot \sigma^2}{k} + \sigma^2 \right)^{-2}
+\left( -\frac{f_d \cdot SNR \cdot \sigma^2}{k^{3/2}} \right) 
+\left( \frac{\sigma^2}{k}\right) =
+\]
+
+\[
+\sum^n_{i=1} -\frac{f^2_d \cdot SNR \cdot \sigma^2\sigma^2}
+{k^4 \left( \frac{SNR^2 \cdot \sigma^2\sigma^2}{k^2} + 2\frac{SNR^2 \cdot \sigma^2\sigma^2}{k} + \sigma^2\sigma^2 \right)} =
+\sum^n_{i=1} -\frac{f^2_d \cdot SNR}{k^2(SNR+k)^2}
+\]
+
+\vspace{2em}
+
+\[
+FIM_{13} = FIM_{31} = \sum^n_{i=1} \left( \frac{SNR \cdot \sigma^2}{k} + \sigma^2 \right)^{-2}
+\left( -\frac{f_d \cdot SNR \cdot \sigma^2}{k^{3/2}} \right)
+\left( \frac{SNR}{k}+1 \right) =
+\]
+
+\[
+\sum^n_{i=1} \frac{-\frac{f_d \cdot SNR^2 \cdot \sigma^2}{k^4} - \frac{f_d \cdot SNR \cdot \sigma^2}{k^3}}
+{\sigma^2\sigma^2 \left( \frac{SNR}{k} + 1 \right)^2} =
+\sum^n_{i=1} -\frac{f_d \cdot SNR}{k^2\sigma^2 (SNR + k)^2}
+\]
+
+\vspace{2em}
+
+\[
+FIM_{22} = \sum^n_{i=1} \left( \frac{SNR \cdot \sigma^2}{k} + \sigma^2 \right)^{-2}
+\left( \frac{\sigma^2}{k}\right)^2 = \sum^n_{i=1} \frac{1}{(SNR + k)^2}
+\]
+
+\vspace{2em}
+
+\[
+FIM_{23} = FIM_{32} = \sum^n_{i=1} \left( \frac{SNR \cdot \sigma^2}{k} + \sigma^2 \right)^{-2}
+\left( \frac{\sigma^2}{k}\right) \left( \frac{SNR}{k}+1 \right) =
+\]
+
+\[
+\sum^n_{i=1}\frac{\frac{SNR}{k^2} + \frac{1}{k}}{\sigma^2(SNR/k+1)^2} = \sum^n_{i=1} \frac{1}{\sigma^2(SNR+k)}
+\]
+
+\vspace{2em}
+
+\[
+FIM_{33} = \sum^n_{i=1} \left( \frac{SNR \cdot \sigma^2}{k} + \sigma^2 \right)^{-2}
+\left( \frac{SNR}{k}+1 \right)^2 = \sum^n_{i=1} \frac{1}{\sigma^2\sigma^2} =
+\frac{n}{\sigma^2\sigma^2}
+\]
+
+To calculate the $CRLB$ we need to invert the $FIM$, and the result of such an inversion takes quite a bit of time and
+space to display. The closed form rule for inverting 3 by 3 matrices,
+along with the Rule of Sarrus for calculating the determinant, makes the process easy but tedious.
+
+\section{}
+Forthcoming.
+
+\section{}
+Attached is the code, along with a plot of the CRLB as a function of the SNR.
+The only portion of the code that is missing is the line that defines the Maximum Likelihood Estimator
+of $f_d$.
+
+\end{document}
